@@ -7,16 +7,18 @@ $password = '';
 
 $conn = db_connection($host,$dbname,$username,$password);
 create_exercice($conn);
-$exercices = read_exercice($conn);
+$exercices = read_exercices($conn);
 if(isset($_GET['id']) && isset($_GET['action'])){
     if($_GET['action'] =='delete'){
         delete_exercice($conn);
     }
     elseif($_GET['action'] =='update'){
-        $exercice = update_exercice($conn);
+        $exercice = read_single_exercice($conn);
+        update_exercice($conn);
     }
     
 }
+
 
 ?>
 
@@ -78,9 +80,12 @@ if(isset($_GET['id']) && isset($_GET['action'])){
                                 <label for="date">Date de création</label>
                                 <input type="date" id="date" name="date" value="<?= htmlspecialchars($exercice['date']) ?>" required>
                             </div>
-                            <input type="submit" value="Mettre à jour">
+                            <input type="submit" name="update" value="Mettre à jour">
                         </fieldset>
                     </form>
+                    <p>
+                        <a href="index.php">Ajouter un exercice</a>
+                    </p>
                 </div>
             <?php endif;?>
         </div>

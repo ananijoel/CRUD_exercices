@@ -1,35 +1,131 @@
-*{
-    overflow: hidden;
-    box-sizing: border-box;
+/* Définir les couleurs principales */
+:root {
+    --primary-color: #5294e2;
+    --secondary-color: #f4f4f9;
+    --text-color: #333;
+    --danger-color: #e74c3c;
+    --success-color: #27ae60;
+}
+
+/* Réinitialiser les marges et paddings */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
-body{
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    line-height: 1.6;
 }
-fieldset{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+
+/* Container principal */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-fieldset div{
-    padding: 10px;
+
+/* Formulaire */
+.form {
+    margin-bottom: 30px;
 }
-table {
-    border-collapse: collapse;
+
+fieldset {
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+legend {
+    padding: 0 10px;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="submit"] {
     width: 100%;
-    text-align: center;
-}
-th, td {
+    padding: 10px;
+    margin-bottom: 15px;
     border: 1px solid #ddd;
-    padding: 8px;
+    border-radius: 5px;
+    font-size: 1rem;
 }
-th {
-    background-color: #f4f4f4;
+
+input[type="submit"] {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #407bbf;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+thead tr {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: left;
+}
+
+th, td {
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: var(--secondary-color);
+}
+
+tbody tr:hover {
+    background-color: #f0f8ff;
+}
+
+/* Liens */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 10px;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #407bbf;
+}
+
+/* Message de succès */
+p {
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+p[style*="color: green"] {
+    color: var(--success-color);
+    font-weight: bold;
 }

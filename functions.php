@@ -14,37 +14,35 @@ function db_connection($host,$dbname,$username,$password){
 function create_exercice($conn){
     
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['enregistrer'])) {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['enregistrer'])) {
-            // Récupération des données
-            $titre = trim($_POST['titre']);
-            $auteur = trim($_POST['auteur']);
-            $date = $_POST['date'];
+        // Récupération des données
+        $titre = trim($_POST['titre']);
+        $auteur = trim($_POST['auteur']);
+        $date = $_POST['date'];
+    
         
-           
-            if (empty($titre) || empty($auteur) || empty($date)) {
-                echo "Tous les champs sont obligatoires.";
-            } else {
-                try {
-                    $stmt = $conn->prepare("INSERT INTO exercice (titre, auteur, date) VALUES (:titre, :auteur, :date)");
-                    $stmt->bindParam(':titre', $titre);
-                    $stmt->bindParam(':auteur', $auteur);
-                    $stmt->bindParam(':date', $date);
-        
-                    if ($stmt->execute()) {
-                        
-                        header("Location: " . $_SERVER['PHP_SELF'] . "?success=1");
-                        exit;
-                    } else {
-                        echo "Erreur lors de l'enregistrement.";
-                    }
-                } catch (PDOException $e) {
-                    echo "Erreur SQL : " . htmlspecialchars($e->getMessage());
+        if (empty($titre) || empty($auteur) || empty($date)) {
+            echo "Tous les champs sont obligatoires.";
+        } else {
+            try {
+                $stmt = $conn->prepare("INSERT INTO exercice (titre, auteur, date) VALUES (:titre, :auteur, :date)");
+                $stmt->bindParam(':titre', $titre);
+                $stmt->bindParam(':auteur', $auteur);
+                $stmt->bindParam(':date', $date);
+    
+                if ($stmt->execute()) {
+                    
+                    header("Location: " . $_SERVER['PHP_SELF'] . "?success=1");
+                    exit;
+                } else {
+                    echo "Erreur lors de l'enregistrement.";
                 }
+            } catch (PDOException $e) {
+                echo "Erreur SQL : " . htmlspecialchars($e->getMessage());
             }
         }
     }
 }
-function read_exercice($conn){
+function read_exercices($conn){
     try {
         $stmt = $conn->query("SELECT * FROM exercice"); 
         $exercices = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -53,26 +51,28 @@ function read_exercice($conn){
         die("Erreur lors de la récupération des données : " . htmlspecialchars($e->getMessage()));
     }
 }
+function read_single_exercice($conn){
+    $id = intval($_GET['id']);
+    
+    // Récupère les données existantes
+    try {
+        $stmt = $conn->prepare("SELECT * FROM exercice WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $exercice = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $exercice;
+        if (!$exercice) {
+            die("Exercice introuvable.");
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la récupération des données : " . htmlspecialchars($e->getMessage()));
+    }
+}
 function update_exercice($conn){
     if (is_numeric($_GET['id'])) {
         $id = intval($_GET['id']);
-    
-        // Récupère les données existantes
-        try {
-            $stmt = $conn->prepare("SELECT * FROM exercice WHERE id = :id");
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            $exercice = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $exercice;
-            if (!$exercice) {
-                die("Exercice introuvable.");
-            }
-        } catch (PDOException $e) {
-            die("Erreur lors de la récupération des données : " . htmlspecialchars($e->getMessage()));
-        }
-    
         // Met à jour les données si le formulaire est soumis
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
             $titre = trim($_POST['titre']);
             $auteur = trim($_POST['auteur']);
             $date = $_POST['date'];
@@ -99,7 +99,6 @@ function update_exercice($conn){
             }
         }
     } else {
-        //die("ID invalide.");
         die('update failed ID invalide');
     }
 }
