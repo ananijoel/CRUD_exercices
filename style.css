@@ -10,6 +10,7 @@ body{
     height: 100vh;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 fieldset{
     display: flex;
@@ -19,4 +20,16 @@ fieldset{
 }
 fieldset div{
     padding: 10px;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+th {
+    background-color: #f4f4f4;
 }
