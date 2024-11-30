@@ -2,10 +2,17 @@
 require 'functions.php';
 $host = '127.0.0.1';
 $dbname = 'TP6';
+$tableName = 'exercice';
 $username = 'root';
 $password = '';
 
-$conn = db_connection($host,$dbname,$username,$password);
+// Connexion au serveur
+$conn = dbConnection($host, $username, $password);
+
+// Création de la base de données et de la table
+createDatabaseAndTable($conn, $dbname, $tableName);
+
+//$conn = db_connection($host,$dbname,$username,$password);
 create_exercice($conn);
 $exercices = read_exercices($conn);
 if(isset($_GET['id']) && isset($_GET['action'])){
